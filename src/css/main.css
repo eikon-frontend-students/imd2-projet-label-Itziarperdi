@@ -1,0 +1,100 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+a {
+  color: inherit;
+}
+
+body {
+  background-color: var(--black, #000);
+  font-family: Inter;
+}
+
+p {
+  color: var(--white, #fff);
+  font-family: Inter;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 129.254%; /* 25.851px */
+  letter-spacing: -0.8px;
+}
+strong {
+  color: var(--red, #e32d2c);
+  font-family: Inter;
+  font-size: 20px;
+  font-style: italic;
+  font-weight: 700;
+  line-height: 129.254%;
+  letter-spacing: -0.8px;
+}
+
+nav {
+  display: flex;
+  width: 100%;
+  padding: 0 50px 0 50px;
+  align-items: center;
+  gap: 489px;
+  position: fixed;
+  top: 20px;
+  z-index: 9999; /* pour qu’elle soit TOUJOURS au-dessus */
+}
+
+nav div {
+  display: flex;
+  width: 783px;
+  align-items: center;
+  gap: 55px;
+  flex-shrink: 0;
+}
+nav a {
+  color: var(--white, #fff);
+  font-family: "Roboto Condensed";
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  letter-spacing: 0.72px;
+  text-decoration: none;
+}
+
+.hero {
+  position: relative; /* Conteneur de référence */
+  width: 100%;
+  height: auto;
+}
+
+.hero img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+.hero-text {
+  position: absolute;
+  bottom: 34px; /* distance du bas */
+  left: 50px; /* distance de gauche */
+  color: white;
+  max-width: 722px;
+  z-index: 10;
+}
+h1 {
+  color: var(--red, #e32d2c);
+  text-align: right;
+  font-family: "Changa One";
+  font-size: 128px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 70%; /* 89.6px */
+  letter-spacing: -7.68px;
+}
+
+.aboutus {
+  display: flex;
+  width: 653px;
+  flex-direction: column;
+  align-items: center;
+  gap: 80px;
+}
