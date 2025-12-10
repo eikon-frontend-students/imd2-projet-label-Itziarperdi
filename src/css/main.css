@@ -110,3 +110,112 @@ nav a {
   gap: 90px;
   padding: 248px 50px 0 0;
 }
+
+.carousel-title {
+  color: var(--red, #e32d2c);
+  text-align: left;
+  font-family: "Changa One";
+  font-size: 50px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 70%; /* 35px */
+  letter-spacing: -3px;
+  padding: 56px 50px 40px 0px;
+}
+
+.links {
+  color: var(--white, #fff);
+  text-align: right;
+  font-family: "Roboto Condensed";
+  font-size: 32px;
+  text-decoration: none;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 70%; /* 22.4px */
+  letter-spacing: 0.96px;
+}
+
+.carousel-text {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding-right: 50px;
+  padding-left: 50px;
+}
+
+.carousel {
+  position: relative;
+  width: 100%;
+  /* 2 pistes de 213px + 20px d'espace entre elles */
+  height: calc(213px * 2 + 20px); /* = 446px */
+  overflow: hidden;
+}
+
+/* pistes internes : sélectionne uniquement les .carousel enfants directs */
+.carousel > .carousel {
+  position: absolute;
+  left: 0;
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  width: 100%;
+  height: 213px; /* hauteur d'une piste = hauteur des images */
+  box-sizing: border-box;
+  white-space: nowrap;
+  -webkit-overflow-scrolling: touch;
+  will-change: transform, scroll-position;
+  pointer-events: none;
+  transform: translateZ(0);
+}
+
+/* ordre d'empilement et positions : left au-dessus de right avec 20px d'écart */
+.carousel > .carousel.carousel-left {
+  top: 0;
+  z-index: 2;
+}
+
+.carousel > .carousel.carousel-right {
+  top: calc(
+    213px + 20px
+  ); /* positionnée sous la première piste avec 20px d'espace */
+  z-index: 1;
+}
+
+/* masquer la scrollbar si présente pour les pistes internes */
+.carousel > .carousel::-webkit-scrollbar {
+  height: 0;
+  width: 0;
+}
+
+/* images des pistes (s'applique aux pistes internes) */
+.carousel > .carousel img {
+  flex: 0 0 auto;
+  width: 213px; /* ajuster selon besoin */
+  height: 213px;
+  object-fit: cover;
+  display: block;
+  user-select: none;
+  pointer-events: none;
+}
+
+/* responsive */
+@media (max-width: 700px) {
+  /* images réduites */
+  .carousel > .carousel img {
+    width: 160px;
+    height: 160px;
+    gap: 12px;
+  }
+
+  /* ajuster hauteurs / positions pour mobile (2*160 + 20) */
+  .carousel {
+    height: calc(160px * 2 + 20px); /* = 340px */
+  }
+  .carousel > .carousel {
+    height: 160px;
+  }
+  .carousel > .carousel.carousel-right {
+    top: calc(160px + 20px);
+  }
+}
