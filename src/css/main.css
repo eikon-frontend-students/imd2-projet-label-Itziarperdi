@@ -39,8 +39,10 @@ nav {
   align-items: center;
   gap: 489px;
   position: fixed;
-  top: 20px;
-  z-index: 9999; /* pour qu’elle soit TOUJOURS au-dessus */
+  z-index: 100030 !important; /* supérieur à .ck-overlay (100000) et img.ck-open (100002) */
+  transform: none !important; /* évite la création d'un nouveau contexte d'empilement */
+  -webkit-transform: none !important;
+  will-change: auto !important;
 }
 
 nav div {
