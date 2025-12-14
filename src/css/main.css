@@ -88,20 +88,24 @@ nav a {
   width: 100%;
 }
 
-.about-title {
+h1 {
   color: var(--red, #e32d2c);
-  text-align: right;
   font-family: "Changa One";
   font-size: 128px;
   font-style: normal;
   font-weight: 400;
-  line-height: 70%; /* 89.6px */
   letter-spacing: -7.68px;
+}
+
+.about-title {
   text-transform: uppercase;
+  line-height: 70%;
+  text-align: right;
   padding: 50px 50px 0 88px;
   position: sticky;
   top: 25px;
 }
+
 .about-text {
   display: flex;
   width: 653px;
@@ -218,6 +222,37 @@ nav a {
   .carousel > .carousel.carousel-right {
     top: calc(160px + 20px);
   }
+}
+
+.stack-section {
+  height: 700vh; /* plus haut = plus lent */
+  position: relative;
+}
+
+.stack-sticky {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.stack-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+
+  transform: translateY(100%);
+}
+
+.contact-title {
+  text-align: center;
+  padding: 165px 370px 0 370px;
+}
+
+.contact-text {
+  padding: 72px 370px 93px 370px;
 }
 
 footer .footer-menu a {

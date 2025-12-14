@@ -1,24 +1,46 @@
 // ...existing code...
 window.addEventListener("load", () => {
+  // Wrap each .img-carousel in a .carousel-item with an overlay (for hover "DISCOVER")
+  function wrapCarouselImages() {
+    document.querySelectorAll(".img-carousel").forEach((img) => {
+      if (img.closest(".carousel-item")) return; // already wrapped
+      const wrapper = document.createElement("div");
+      wrapper.className = "carousel-item";
+
+      const overlay = document.createElement("div");
+      overlay.className = "carousel-overlay";
+
+      const label = document.createElement("span");
+      label.className = "discover-text";
+      label.textContent = "DISCOVER";
+      overlay.appendChild(label);
+
+      img.parentNode.insertBefore(wrapper, img);
+      wrapper.appendChild(img);
+      wrapper.appendChild(overlay);
+    });
+  }
+
+  wrapCarouselImages();
+
   const tracks = document.querySelectorAll(".carousel-left, .carousel-right");
 
   tracks.forEach((track) => {
     // duplicate content for seamless loop
     track.innerHTML = track.innerHTML + track.innerHTML;
-    // ensure horizontal scrolling
+    // ensure horizontal behavior
     track.style.overflowX = "hidden";
     track.style.whiteSpace = "nowrap";
 
-    // compute half width after browser layout
+    // compute half width after duplication/layout
     const halfWidth = track.scrollWidth / 2;
 
     // set initial position depending on direction
-    const isLeft = track.classList.contains("carousel-left"); // left => images go RIGHT
+    const isLeft = track.classList.contains("carousel-left"); // left => images move RIGHT
     track.scrollLeft = isLeft ? halfWidth : 0;
 
-    // speed (pixels per frame). Positive => scroll leftwards (images move left),
-    // Negative => scroll rightwards (images move right).
-    const baseSpeed = 0.6; // ajuster pour vitesse
+    // speed (pixels per frame). Negative => scrollLeft decreases (images move right).
+    const baseSpeed = 0.6; // adjust for desired speed
     const speed = isLeft ? -baseSpeed : baseSpeed;
 
     let rafId = null;
@@ -29,7 +51,6 @@ window.addEventListener("load", () => {
       if (track.scrollLeft >= halfWidth) {
         track.scrollLeft -= halfWidth;
       } else if (track.scrollLeft <= 0) {
-        // when going rightwards past 0, jump forward
         track.scrollLeft += halfWidth;
       }
 
@@ -39,7 +60,7 @@ window.addEventListener("load", () => {
     // start animation
     rafId = requestAnimationFrame(step);
 
-    // (optionnel) stop animation when element is not in viewport to save CPU
+    // pause animation when track is offscreen to save CPU
     const io = new IntersectionObserver(
       (entries) => {
         entries.forEach((e) => {
@@ -55,4 +76,30 @@ window.addEventListener("load", () => {
     );
     io.observe(track);
   });
+
+  // Stack-section parallax behavior (initial code moved inside load to ensure DOM ready)
+  const section = document.querySelector(".stack-section");
+  const images = document.querySelectorAll(".stack-img");
+
+  if (section && images.length) {
+    window.addEventListener("scroll", () => {
+      const rect = section.getBoundingClientRect();
+      const totalScroll = Math.max(
+        section.offsetHeight - window.innerHeight,
+        1
+      );
+      const scrollY = -rect.top;
+
+      images.forEach((img, index) => {
+        const start = (totalScroll / images.length) * index;
+        const end = start + totalScroll / images.length;
+
+        let progress = (scrollY - start) / (end - start);
+        progress = Math.min(Math.max(progress, 0), 1);
+
+        const translateY = 100 - progress * 100;
+        img.style.transform = `translateY(${translateY}%)`;
+      });
+    });
+  }
 });
