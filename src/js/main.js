@@ -266,4 +266,5 @@ window.addEventListener("load", () => {
   }
 
   setupStackImageDetailToggle();
-}); // fin du load
+});
+// fin du load

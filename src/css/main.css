@@ -4,6 +4,10 @@
   padding: 0;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 a {
   color: inherit;
 }
@@ -227,7 +231,7 @@ h1 {
 }
 
 .stack-section {
-  height: 700vh; /* plus haut = plus lent */
+  height: 700vh;
   position: relative;
 }
 
@@ -257,39 +261,6 @@ h1 {
   padding: 72px 370px 93px 370px;
 }
 
-footer .footer-menu a {
-  color: var(--white, #fff);
-  font-family: "Roboto Condensed";
-  display: flex;
-  flex-direction: column;
-  text-decoration: none;
-  font-size: 20px;
-  font-style: normal;
-  font-weight: 300;
-  line-height: normal;
-  letter-spacing: 0.6px;
-}
-
-.copyright {
-  color: var(--white, #fff);
-  font-family: "Roboto Condensed";
-  font-size: 20px;
-  font-style: normal;
-  font-weight: 300;
-  line-height: normal;
-  letter-spacing: 0.6px;
-}
-
-.slogan {
-  color: var(--white, #fff);
-  font-family: "Changa One";
-  font-size: 20px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 129.254%; /* 25.851px */
-  letter-spacing: 0.8px;
-}
-
 .lang-switch {
   display: flex;
   gap: 10px;
@@ -305,102 +276,76 @@ footer .footer-menu a {
 }
 
 .lang.active {
-  font-weight: 700; /* EN en bold par défaut */
+  font-weight: 700;
 }
 
 .lang:hover {
   opacity: 0.7;
-}
-footer {
-  display: flex;
-  justify-content: space-between;
-  align-items: stretch;
-  padding: 40px 60px;
-  background: #e32d2c;
-  color: white;
-  font-family: Arial, sans-serif;
-}
-
-/* ---- COLONNE GAUCHE ---- */
-.footer-left {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  gap: 18px;
-  width: 220px;
-}
-
-.footer-contact {
-  display: flex;
-  gap: 14px;
-}
-
-.footer-contact .logo {
-  width: 26px;
-  opacity: 0.9;
-}
-
-.footer-left img {
-  width: 90px;
-}
-
-.footer-left .copyright {
-  font-size: 13px;
-  opacity: 0.9;
-}
-
-/* ---- SLOGAN CENTRE ---- */
-.slogan {
-  flex: 1;
-  text-align: center;
-  font-size: 15px;
-  font-weight: 600;
-  display: flex;
-  align-items: center; /* Centre verticalement */
-  justify-content: center; /* Centre horizontalement */
-  margin: 0; /* supprime marges par défaut */
-  padding-top: 10px; /* Ajuste la hauteur visuelle */
-}
-
-/* ---- MENU ---- */
-.footer-menu {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  min-width: 120px;
-  justify-content: center; /* centre verticalement */
-}
-
-.footer-menu a {
-  color: white;
-  font-size: 14px;
-  text-decoration: none;
-  opacity: 0.95;
-}
-
-/* ---- LANGUE & POLICIES ---- */
-.footer-right {
-  display: flex;
-  flex-direction: column;
-  justify-content: center; /* centre la colonne */
-  gap: 16px;
-  min-width: 120px;
-  text-align: right;
 }
 
 .lang-switch {
   display: flex;
   gap: 6px;
 }
-
-.policity {
+footer p {
+  color: var(--white, #fff);
+  font-family: "Roboto Condensed";
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 300;
+  line-height: normal;
+  letter-spacing: 0.6px;
+}
+footer {
+  background: var(--red, #e32d2c);
   display: flex;
-  flex-direction: column;
-  gap: 6px;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 17px 50px 17px 50px;
 }
 
-.policity p {
-  margin: 0;
-  font-size: 14px;
-  opacity: 0.95;
+footer a {
+  color: var(--white, #fff);
+  text-decoration: none;
+  font-family: "Roboto Condensed";
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 300;
+  line-height: normal;
+  letter-spacing: 0.6px;
+}
+footer .footer-menu {
+  display: flex;
+  flex-direction: column;
+}
+
+.slogan {
+  color: var(--white, #fff);
+  font-family: "Changa One";
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 129.254%;
+  letter-spacing: 0.8px;
+  padding: 60px;
+}
+
+.copyright {
+  color: var(--white, #fff);
+  font-family: "Roboto Condensed";
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 300;
+  line-height: normal;
+  letter-spacing: 0.6px;
+}
+
+.policity {
+  color: var(--white, #fff);
+  font-family: "Roboto Condensed";
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 300;
+  line-height: normal;
+  letter-spacing: 0.6px;
 }
