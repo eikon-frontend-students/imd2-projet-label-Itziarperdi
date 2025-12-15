@@ -23,7 +23,7 @@ p {
   font-size: 20px;
   font-style: normal;
   font-weight: 500;
-  line-height: 129.254%; /* 25.851px */
+  line-height: 129.254%;
   letter-spacing: -0.8px;
 }
 strong {
@@ -43,8 +43,8 @@ nav {
   align-items: center;
   gap: 489px;
   position: fixed;
-  z-index: 100030 !important; /* supérieur à .ck-overlay (100000) et img.ck-open (100002) */
-  transform: none !important; /* évite la création d'un nouveau contexte d'empilement */
+  z-index: 100030 !important;
+  transform: none !important;
   -webkit-transform: none !important;
   will-change: auto !important;
 }
@@ -68,7 +68,7 @@ nav a {
 }
 
 .hero {
-  position: relative; /* Conteneur de référence */
+  position: relative;
   width: 100%;
   height: auto;
 }
@@ -80,8 +80,8 @@ nav a {
 }
 .hero-text {
   position: absolute;
-  bottom: 34px; /* distance du bas */
-  left: 50px; /* distance de gauche */
+  bottom: 34px;
+  left: 50px;
   color: white;
   max-width: 722px;
   z-index: 10;
@@ -89,8 +89,8 @@ nav a {
 
 .aboutus {
   display: flex;
-  align-items: flex-start; /* Aligne le haut des colonnes */
-  gap: 178px; /* Espace entre les deux colonnes */
+  align-items: flex-start;
+  gap: 178px;
   width: 100%;
 }
 
@@ -128,20 +128,19 @@ h1 {
   font-size: 50px;
   font-style: normal;
   font-weight: 400;
-  line-height: 70%; /* 35px */
+  line-height: 70%;
   letter-spacing: -3px;
   padding: 56px 50px 40px 0px;
 }
 
 .links {
   color: var(--white, #fff);
-  text-align: right;
   font-family: "Roboto Condensed";
   font-size: 32px;
   text-decoration: none;
   font-style: normal;
   font-weight: 400;
-  line-height: 70%; /* 22.4px */
+  line-height: 70%;
   letter-spacing: 0.96px;
 }
 
@@ -168,13 +167,11 @@ h1 {
 .carousel {
   position: relative;
   width: 100%;
-  /* 2 pistes de 213px + 20px d'espace entre elles */
-  height: calc(213px * 2 + 20px); /* = 446px */
+  height: calc(213px * 2 + 20px);
   overflow: hidden;
   margin-bottom: 0;
 }
 
-/* pistes internes : sélectionne uniquement les .carousel enfants directs */
 .carousel > .carousel {
   position: absolute;
   left: 0;
@@ -182,7 +179,7 @@ h1 {
   gap: 16px;
   align-items: center;
   width: 100%;
-  height: 213px; /* hauteur d'une piste = hauteur des images */
+  height: 213px;
   box-sizing: border-box;
   white-space: nowrap;
   -webkit-overflow-scrolling: touch;
@@ -191,29 +188,24 @@ h1 {
   transform: translateZ(0);
 }
 
-/* ordre d'empilement et positions : left au-dessus de right avec 20px d'écart */
 .carousel > .carousel.carousel-left {
   top: 0;
   z-index: 2;
 }
 
 .carousel > .carousel.carousel-right {
-  top: calc(
-    213px + 20px
-  ); /* positionnée sous la première piste avec 20px d'espace */
+  top: calc(213px + 20px);
   z-index: 1;
 }
 
-/* masquer la scrollbar si présente pour les pistes internes */
 .carousel > .carousel::-webkit-scrollbar {
   height: 0;
   width: 0;
 }
 
-/* images des pistes (s'applique aux pistes internes) */
 .carousel > .carousel img {
   flex: 0 0 auto;
-  width: 213px; /* ajuster selon besoin */
+  width: 213px;
   height: 213px;
   object-fit: cover;
   display: block;
@@ -221,18 +213,15 @@ h1 {
   pointer-events: none;
 }
 
-/* responsive */
 @media (max-width: 700px) {
-  /* images réduites */
   .carousel > .carousel img {
     width: 160px;
     height: 160px;
     gap: 12px;
   }
 
-  /* ajuster hauteurs / positions pour mobile (2*160 + 20) */
   .carousel {
-    height: calc(160px * 2 + 20px); /* = 340px */
+    height: calc(160px * 2 + 20px);
   }
   .carousel > .carousel {
     height: 160px;
@@ -274,6 +263,17 @@ h1 {
 
 .contact-text {
   padding: 72px 370px 93px 370px;
+}
+.contact-page-contact {
+  display: flex;
+  justify-content: center;
+  gap: 60px;
+  padding-bottom: 100px;
+}
+
+.logo-contact-page {
+  width: 60px;
+  height: 50px;
 }
 
 .lang-switch {
@@ -366,12 +366,12 @@ footer .footer-menu {
 }
 .artist-link {
   display: inline-block;
-  line-height: 0; /* évite espaces verticaux autour de l'image */
+  line-height: 0;
   text-decoration: none;
 }
 .artist-link img {
   display: block;
-  pointer-events: auto; /* si tu as des rules qui bloquent pointer-events sur les images */
+  pointer-events: auto;
 }
 
 .artist-biographie {
@@ -390,7 +390,7 @@ footer .footer-menu {
   font-size: 18px;
   font-style: normal;
   font-weight: 500;
-  line-height: 129.254%; /* 23.265px */
+  line-height: 129.254%;
   letter-spacing: -0.72px;
   text-align: justify;
   padding: 118px 100px 0 100px;
@@ -400,13 +400,25 @@ footer .footer-menu {
   display: flex;
   flex-direction: column;
 }
-.artist-diclamer {
-  color: var(--white, #fff);
-  font-family: Inter;
-  font-size: 14px;
-  font-style: italic;
+.artist-disclaimer {
+  color: var(--red, #e32d2c);
+  font-family: "Changa One";
+  text-transform: uppercase;
+  font-size: 50px;
+  font-style: normal;
   font-weight: 400;
-  line-height: 129.254%; /* 18.095px */
-  letter-spacing: -0.56px;
+  line-height: 70%;
+  letter-spacing: -3px;
   padding: 20px 100px 0 100px;
+}
+.links.tours {
+  display: flex;
+  justify-content: right;
+  padding: 40px 100px 60px 0;
+}
+
+.artist-page-contact {
+  display: flex;
+  gap: 150px;
+  padding: 48px 100px 0 100px;
 }
