@@ -161,7 +161,8 @@ h1 {
   margin: 0;
   padding: 0;
 }
-#artist-section:hover {
+
+.artist-link:hover {
   cursor: url("../img/mouse.svg"), auto;
 }
 .carousel {
