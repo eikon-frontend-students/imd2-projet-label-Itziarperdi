@@ -373,3 +373,40 @@ footer .footer-menu {
   display: block;
   pointer-events: auto; /* si tu as des rules qui bloquent pointer-events sur les images */
 }
+
+.artist-biographie {
+  display: flex;
+  flex-direction: row;
+}
+
+.artist-pageimg {
+  height: auto;
+  display: block;
+}
+
+.artist-info {
+  color: var(--white, #fff);
+  font-family: Inter;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 129.254%; /* 23.265px */
+  letter-spacing: -0.72px;
+  text-align: justify;
+  padding: 118px 100px 0 100px;
+}
+
+.artist-biographie-text {
+  display: flex;
+  flex-direction: column;
+}
+.artist-diclamer {
+  color: var(--white, #fff);
+  font-family: Inter;
+  font-size: 14px;
+  font-style: italic;
+  font-weight: 400;
+  line-height: 129.254%; /* 18.095px */
+  letter-spacing: -0.56px;
+  padding: 20px 100px 0 100px;
+}

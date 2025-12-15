@@ -1,6 +1,8 @@
-// ...existing code...
+// Toutes les fonctionnalités JS regroupées : carrousel, parallaxe stack, ancres et curseur section artist
+// Écrit en français, sans l'effet de "rétractation" (supprimé)
+
 window.addEventListener("load", () => {
-  // Enveloppe chaque .img-carousel dans .carousel-item avec un overlay (pour le hover "DISCOVER")
+  /* ---------- 1) Wrapper des images du carousel (overlay DISCOVER pour hover) ---------- */
   function wrapCarouselImages() {
     document.querySelectorAll(".img-carousel").forEach((img) => {
       if (img.closest(".carousel-item")) return; // déjà enveloppé
@@ -20,34 +22,30 @@ window.addEventListener("load", () => {
       wrapper.appendChild(overlay);
     });
   }
-
   wrapCarouselImages();
 
+  /* ---------- 2) Carrousels horizontaux infinis (double contenu + animation requestAnimationFrame) ---------- */
   const tracks = document.querySelectorAll(".carousel-left, .carousel-right");
-
   tracks.forEach((track) => {
-    // dupliquer le contenu pour une boucle fluide
+    // dupliquer contenu pour boucle fluide
     track.innerHTML = track.innerHTML + track.innerHTML;
-    // forcer le comportement horizontal
+
+    // assurer layout horizontal
     track.style.overflowX = "hidden";
     track.style.whiteSpace = "nowrap";
 
-    // calculer la moitié de la largeur après duplication / rendu
+    // calculs
     const halfWidth = track.scrollWidth / 2;
-
-    // position initiale selon la direction
-    const isLeft = track.classList.contains("carousel-left"); // left => images se déplacent VERS LA DROITE
+    const isLeft = track.classList.contains("carousel-left");
     track.scrollLeft = isLeft ? halfWidth : 0;
 
-    // vitesse (pixels par frame). Négatif => scrollLeft diminue (images vont à droite).
-    const baseSpeed = 0.6; // ajuster selon la vitesse souhaitée
+    const baseSpeed = 0.6;
     const speed = isLeft ? -baseSpeed : baseSpeed;
 
     let rafId = null;
     function step() {
       track.scrollLeft += speed;
 
-      // gestion de la boucle continue
       if (track.scrollLeft >= halfWidth) {
         track.scrollLeft -= halfWidth;
       } else if (track.scrollLeft <= 0) {
@@ -57,10 +55,10 @@ window.addEventListener("load", () => {
       rafId = requestAnimationFrame(step);
     }
 
-    // démarrer l'animation
+    // démarrer
     rafId = requestAnimationFrame(step);
 
-    // mettre en pause l'animation quand la piste est hors écran pour économiser le CPU
+    // pauser si hors écran pour économiser CPU
     const io = new IntersectionObserver(
       (entries) => {
         entries.forEach((e) => {
@@ -77,12 +75,13 @@ window.addEventListener("load", () => {
     io.observe(track);
   });
 
-  // Comportement parallaxe pour la section "stack" (déplacé dans load pour s'assurer que le DOM est prêt)
-  const section = document.querySelector(".stack-section");
-  const images = document.querySelectorAll(".stack-img");
+  /* ---------- 3) Parallaxe vertical pour les .stack-img dans .stack-section ---------- */
+  (function initStackParallax() {
+    const section = document.querySelector(".stack-section");
+    const images = document.querySelectorAll(".stack-img");
+    if (!section || images.length === 0) return;
 
-  if (section && images.length) {
-    window.addEventListener("scroll", () => {
+    function onScroll() {
       const rect = section.getBoundingClientRect();
       const totalScroll = Math.max(
         section.offsetHeight - window.innerHeight,
@@ -100,10 +99,15 @@ window.addEventListener("load", () => {
         const translateY = 100 - progress * 100;
         img.style.transform = `translateY(${translateY}%)`;
       });
-    });
-  }
+    }
 
-  // GESTION DES ANCRES : scroll vers la cible en tenant compte de la nav fixe
+    // initial + throttle au scroll natif
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
+  })();
+
+  /* ---------- 4) Gestion des ancres internes (scroll lisse avec offset nav fixe) ---------- */
   document.body.addEventListener("click", (e) => {
     const a = e.target.closest('a[href^="#"]');
     if (!a) return;
@@ -111,8 +115,9 @@ window.addEventListener("load", () => {
     if (!href || href === "#") return;
     const id = href.slice(1);
     const target = document.getElementById(id);
-    if (!target) return;
+    if (!target) return; // laisser comportement normal si aucune cible
     e.preventDefault();
+
     const navH =
       parseInt(
         getComputedStyle(document.documentElement).getPropertyValue(
@@ -124,8 +129,26 @@ window.addEventListener("load", () => {
     window.scrollTo({ top, behavior: "smooth" });
   });
 
-  // NOTE: Le code de "rétractation" au clic pour .stack-img a été retiré.
-  // Les effets de parallax et l'empilement des images (.stack-img) restent inchangés.
+  /* ---------- 5) Curseur personnalisé dans la section artist (ajoute/retire .cursor-artist sur le body) ---------- */
+  (function setupArtistCursor() {
+    const artistSection = document.getElementById("artist-section");
+    if (!artistSection) return;
+
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            document.body.classList.add("cursor-artist");
+          } else {
+            document.body.classList.remove("cursor-artist");
+          }
+        });
+      },
+      { threshold: 0.0 } // déclenche dès qu'une partie est visible
+    );
+
+    io.observe(artistSection);
+  })();
+
+  /* Fin du load handler */
 });
-// fin du load
-// ...existing code...
