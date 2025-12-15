@@ -154,12 +154,23 @@ h1 {
   padding-left: 50px;
 }
 
+.carousel,
+#artist-section,
+.artist-section,
+.stack-section {
+  margin: 0;
+  padding: 0;
+}
+#artist-section:hover {
+  cursor: url("../img/mouse.svg"), auto;
+}
 .carousel {
   position: relative;
   width: 100%;
   /* 2 pistes de 213px + 20px d'espace entre elles */
   height: calc(213px * 2 + 20px); /* = 446px */
   overflow: hidden;
+  margin-bottom: 0;
 }
 
 /* pistes internes : sélectionne uniquement les .carousel enfants directs */
@@ -229,7 +240,10 @@ h1 {
     top: calc(160px + 20px);
   }
 }
-
+#artist-section {
+  margin-top: 0;
+  padding-top: 0;
+}
 .stack-section {
   height: 700vh;
   position: relative;
@@ -348,4 +362,13 @@ footer .footer-menu {
   font-weight: 300;
   line-height: normal;
   letter-spacing: 0.6px;
+}
+.artist-link {
+  display: inline-block;
+  line-height: 0; /* évite espaces verticaux autour de l'image */
+  text-decoration: none;
+}
+.artist-link img {
+  display: block;
+  pointer-events: auto; /* si tu as des rules qui bloquent pointer-events sur les images */
 }

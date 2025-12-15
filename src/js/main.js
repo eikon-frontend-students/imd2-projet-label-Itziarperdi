@@ -103,168 +103,29 @@ window.addEventListener("load", () => {
     });
   }
 
-  // --- Effet clic : rétractation de l'image .stack-img vers la droite et affichage d'un espace d'infos ---
-  function setupStackImageDetailToggle() {
-    document.body.addEventListener("click", (e) => {
-      const img = e.target.closest("img.stack-img");
-      if (!img) return;
-      // si déjà ouvert -> fermer
-      if (img.dataset.ckOpen === "1") {
-        closeStackDetail(img);
-      } else {
-        openStackDetail(img);
-      }
-    });
-  }
+  // GESTION DES ANCRES : scroll vers la cible en tenant compte de la nav fixe
+  document.body.addEventListener("click", (e) => {
+    const a = e.target.closest('a[href^="#"]');
+    if (!a) return;
+    const href = a.getAttribute("href");
+    if (!href || href === "#") return;
+    const id = href.slice(1);
+    const target = document.getElementById(id);
+    if (!target) return;
+    e.preventDefault();
+    const navH =
+      parseInt(
+        getComputedStyle(document.documentElement).getPropertyValue(
+          "--nav-height"
+        )
+      ) || 80;
+    const rect = target.getBoundingClientRect();
+    const top = window.pageYOffset + rect.top - navH - 8;
+    window.scrollTo({ top, behavior: "smooth" });
+  });
 
-  function openStackDetail(img) {
-    // éviter l'ouverture multiple
-    if (document.querySelector(".ck-overlay")) return;
-
-    // conserver l'état et empêcher le drag
-    const parent = img.parentNode;
-    const next = img.nextSibling;
-    img.dataset.ckOriginalStyle = img.getAttribute("style") || "";
-    img.draggable = false;
-
-    const rect = img.getBoundingClientRect();
-
-    // placeholder pour conserver la mise en page quand on fixe l'image
-    const placeholder = document.createElement("div");
-    placeholder.className = "ck-placeholder";
-    placeholder.style.width = `${rect.width}px`;
-    placeholder.style.height = `${rect.height}px`;
-    placeholder.style.minWidth = `${rect.width}px`;
-    placeholder.style.minHeight = `${rect.height}px`;
-    placeholder.style.boxSizing = "border-box";
-    parent.insertBefore(placeholder, img);
-
-    // overlay (fond sombre + emplacement pour panneau d'infos à gauche)
-    const overlay = document.createElement("div");
-    overlay.className = "ck-overlay";
-    overlay.setAttribute("role", "dialog");
-    overlay.setAttribute("aria-hidden", "false");
-
-    // panneau d'infos à gauche (laisse vide pour que tu puisses injecter les infos de l'artiste)
-    const infoPanel = document.createElement("aside");
-    infoPanel.className = "ck-info";
-    infoPanel.innerHTML = `<button class="ck-close" aria-label="Fermer">×</button><div class="ck-info-inner"></div>`;
-
-    overlay.appendChild(infoPanel);
-    document.body.appendChild(overlay);
-
-    // déplacer l'image originale dans le body pour pouvoir la positionner en fixed
-    document.body.appendChild(img);
-
-    // définir le positionnement initial fixe pour correspondre à l'emplacement d'origine
-    Object.assign(img.style, {
-      position: "fixed",
-      left: `${rect.left}px`,
-      top: `${rect.top}px`,
-      width: `${rect.width}px`,
-      height: `${rect.height}px`,
-      margin: "0",
-      transition: "all 420ms cubic-bezier(.2,.9,.3,1)",
-      zIndex: "100002",
-      objectFit: "cover",
-    });
-
-    // marquer comme ouvert
-    img.dataset.ckOpen = "1";
-    img.classList.add("ck-open");
-
-    // animer vers la moitié droite (le panneau d'infos reste à gauche)
-    requestAnimationFrame(() => {
-      const half = Math.round(window.innerWidth / 2);
-      // définir la largeur du panneau d'infos (JS fixe la valeur exacte)
-      infoPanel.style.width = `${half}px`;
-      infoPanel.style.height = `100vh`;
-      // animer l'image vers la moitié droite
-      img.style.left = `${half}px`;
-      img.style.top = `0px`;
-      img.style.width = `${window.innerWidth - half}px`;
-      img.style.height = `${window.innerHeight}px`;
-    });
-
-    // gestion de la fermeture
-    function onOverlayClick(ev) {
-      if (ev.target === overlay || ev.target.closest(".ck-close")) {
-        closeStackDetail(img);
-      }
-    }
-    overlay.addEventListener("click", onOverlayClick);
-
-    function onKeyUp(ev) {
-      if (ev.key === "Escape") closeStackDetail(img);
-    }
-    window.addEventListener("keyup", onKeyUp);
-
-    // stocker les références pour la restauration
-    img._ckData = {
-      parent,
-      next,
-      placeholder,
-      overlay,
-      onOverlayClick,
-      onKeyUp,
-    };
-  }
-
-  function closeStackDetail(img) {
-    const data = img._ckData;
-    if (!data) return;
-    const { parent, next, placeholder, overlay, onOverlayClick, onKeyUp } =
-      data;
-
-    // position cible = position du placeholder
-    const targetRect = placeholder.getBoundingClientRect();
-
-    // animer l'image vers le placeholder
-    Object.assign(img.style, {
-      left: `${targetRect.left}px`,
-      top: `${targetRect.top}px`,
-      width: `${targetRect.width}px`,
-      height: `${targetRect.height}px`,
-    });
-
-    // atténuer le fond de l'overlay
-    overlay.classList.add("ck-closing");
-
-    // après la transition, restaurer l'image dans le DOM et nettoyer
-    const cleanup = () => {
-      // restaurer le style inline d'origine
-      if (img.dataset.ckOriginalStyle) {
-        img.setAttribute("style", img.dataset.ckOriginalStyle);
-      } else {
-        img.removeAttribute("style");
-      }
-      // remettre l'image à sa position d'origine dans le parent
-      if (next) parent.insertBefore(img, next);
-      else parent.appendChild(img);
-
-      // supprimer le placeholder et l'overlay
-      placeholder.remove();
-      overlay.remove();
-
-      // retirer les marques d'ouverture
-      delete img.dataset.ckOpen;
-      img.classList.remove("ck-open");
-      delete img._ckData;
-
-      window.removeEventListener("keyup", onKeyUp);
-      overlay.removeEventListener("click", onOverlayClick);
-    };
-
-    // attendre la fin de la transition pour nettoyer
-    img.addEventListener(
-      "transitionend",
-      () => {
-        cleanup();
-      },
-      { once: true }
-    );
-  }
-
-  setupStackImageDetailToggle();
+  // NOTE: Le code de "rétractation" au clic pour .stack-img a été retiré.
+  // Les effets de parallax et l'empilement des images (.stack-img) restent inchangés.
 });
 // fin du load
+// ...existing code...
